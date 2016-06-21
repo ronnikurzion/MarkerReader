@@ -18,17 +18,17 @@ def parseDocIntoWords():
 
     text = open(filename, "r").read()
 
-    print "OPENING FILE"
+    # print "OPENING FILE"
 
     sentence_parser = SentenceParser()
 
     list = sentence_parser.parse(text, 1)
 
-    print "PARSED TEXT"
+    # print "PARSED TEXT"
 
     words = []
 
-    print "GETTING ALL WORDS"
+    # print "GETTING ALL WORDS"
 
     poses = []
 
@@ -36,7 +36,7 @@ def parseDocIntoWords():
 
         words.append(sentence)
 
-    print words
+    # print words
 
     return words
 
@@ -56,7 +56,7 @@ def biomarkerGenerator(words):
 
         markerDatabase = pickle.load(f)
 
-    print markerDatabase
+    # print markerDatabase
 
     #Database filter:
 
