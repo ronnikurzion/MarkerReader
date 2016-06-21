@@ -99,6 +99,6 @@ with open('AGR2_blood_biomarker.txt') as f:
             fout.writelines(g)
 
 #Run-------------------------------------------------------------------------------------------------------------------
-def generateBiomarkerCandidates:
+def generateBiomarkerCandidates():
     return biomarkerGenerator (parseDocIntoWords())
 
