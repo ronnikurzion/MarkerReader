@@ -1,6 +1,6 @@
 import pickle, os, sys
 from ddlite import *
-def generateDiseaseCandidate():
+def generateDiseaseCandidates():
     words = []
     with open('database.pickle', 'rb') as f:
         diseases = pickle.load(f)
@@ -11,7 +11,7 @@ def generateDiseaseCandidate():
     DiseaseMatch = DictionaryMatch(label = "Diseases", dictionary = diseases, ignore_case= False)
 
     EE = Entities(words, DiseaseMatch)
-    return EE
+    return DiseaseMatch
 
 
 

@@ -72,7 +72,7 @@ def biomarkerGenerator(words):
 
     E = Entities(words, gene_dm)
 
-    return E
+    return gene_dm
 
 #Parse document into smaller pieces------------------------------------------------------------------------------------
 
