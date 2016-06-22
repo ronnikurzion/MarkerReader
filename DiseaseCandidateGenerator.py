@@ -2,17 +2,20 @@ import pickle, os, sys
 from ddlite import *
 def generateDiseaseCandidates():
 
-    diseaseDictionary = ["prostate cancer"]
-    # with open('database.pickle', 'rb') as f:
-    #     diseases = pickle.load(f)
+    with open('diseaseDatabase.pickle', 'rb') as f:
+        diseaseDictionary = pickle.load(f)
+    with open('diseaseAbbreviationsDatabase.pickle', 'rb') as f:
+       diseaseAbb = pickle.load(f)
 
-    otherparser = DocParser('AGR2_blood_biomarker.txt', ftreader =  TextReader())
-    words = otherparser.parseDocSentences()
 
-    DiseaseMatch = DictionaryMatch(label = "Diseases", dictionary = diseaseDictionary, ignore_case= False)
+    # otherparser = DocParser('AGR2_blood_biomarker.txt', ftreader =  TextReader())
+    # words = otherparser.parseDocSentences()
 
+    DiseaseMatch = DictionaryMatch(label = "Diseases", dictionary = diseaseDictionary, ignore_case= True)
+    AbbMatch = DictionaryMatch(label = "Abb", dictionary = diseaseAbb, ignore_case = False)
+    Filter = Union(DiseaseMatch, AbbMatch)
     # EE = Entities(words, DiseaseMatch)
-    return DiseaseMatch
+    return Filter
 
 
 
