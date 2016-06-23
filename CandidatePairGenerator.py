@@ -46,6 +46,10 @@ def doEverything():
     #13
     def LF_found(m):
         return 1 if ('found' in m.post_window1('lemmas')) and ('found' in m.pre_window2('lemmas')) else 0
+        
+    #14 (-1 if biomarker is confused with a name of a person)    
+    def LF_People(m):
+            return -1 if ('NNP' in mention1(attribute='poses')) else 0
 
 
 
