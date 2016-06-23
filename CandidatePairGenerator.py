@@ -6,7 +6,7 @@ def doEverything():
     parser = DocParser('AGR2_blood_biomarker.txt', ftreader=TextReader())
     sentences = parser.parseDocSentences()
 
-    BM = BioMarkerCandidateGenerator.generateBiomarkerCandidates()
+    BM = BiomarkerCandidateGenerator.generateBiomarkerCandidates()
     DM = DiseaseCandidateGenerator.generateDiseaseCandidates()
 
     possiblePairs = Relations(sentences, BM, DM)
