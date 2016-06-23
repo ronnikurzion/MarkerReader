@@ -1,5 +1,5 @@
 from ddlite import *
-import BioMarkerCandidateGenerator, DiseaseCandidateGenerator
+import BiomarkerCandidateGenerator, DiseaseCandidateGenerator
 
 
 def doEverything():
