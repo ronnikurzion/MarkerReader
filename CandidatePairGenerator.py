@@ -131,12 +131,14 @@ def doEverything():
 
     LFs = [LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate,
            LF_found]
-    gt = None
-    uids = None
+    gts = []
+    uids = []
+    for tuple in mindtaggerToTruth("thefile.tsv"):
+        uids.append(tuple[0])
+        gts.append(tuple[1])
+    otherModel.update_gt(gts, uids=uids)
     otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
-    input = raw_input("FISH")
     otherModel.add_mindtagger_tags()
-    otherModel.update_gt(gt[50:], uids=uids[50:])
 
     # otherModel.apply_lfs(LFs, clear=False)
     return otherModel
@@ -149,3 +151,18 @@ def doEverything():
     # # with open("thing.xml", "wb") as f:
     #
     # doEverything()
+    
+def mindtaggerToTruth(filename):
+    uids = []
+    list =  re.split("[^\\S ]", open(filename).read())
+    # print list
+    count = 7
+    while count < len(list):
+        number = 0
+        if(list[count + 6] == "true"):
+            number = 1
+        elif(list[count + 6] == "false"):
+            number = -1
+        uids.append((list[count + 5] + "::" + list[count + 3] + "::["  + list[count + 4] + ", " +  list[count] + "]::['" + list[count + 1] + "', '" + list[count + 2] + "']", number))
+        count += 7
+    return uids
