@@ -1,12 +1,12 @@
 from ddlite import *
-import BiomarkerCandidateGenerator, DiseaseCandidateGenerator
+import BioMarkerCandidateGenerator, DiseaseCandidateGenerator
 
 
 def doEverything():
     parser = DocParser('AGR2_blood_biomarker.txt', ftreader=TextReader())
     sentences = parser.parseDocSentences()
 
-    BM = BiomarkerCandidateGenerator.generateBiomarkerCandidates()
+    BM = BioMarkerCandidateGenerator.generateBiomarkerCandidates()
     DM = DiseaseCandidateGenerator.generateDiseaseCandidates()
 
     possiblePairs = Relations(sentences, BM, DM)
@@ -50,7 +50,7 @@ def doEverything():
         return 1 if ('found' in m.post_window1('lemmas')) and ('found' in m.pre_window2('lemmas')) else 0
     # 9 (-1 if biomarker is confused with a name of a person)
     def LF_People(m):
-        return -1 if ('NNP' in m.mention1(attribute='poses')) else 0
+        return -1 if ('NNP' in mention1(attribute='poses')) else 0
     #10
     def LF_diagnosed(m):
         return 1 if('diagnose' in m.post_window1('lemmas')) else 0
@@ -115,30 +115,79 @@ def doEverything():
     def LF_derivation(m):
         return 1 if ('derivation of' in m.pre_window1('lemmas')) else 0
     #31
-    def LF_elevation(m):
-        return 1 if ('elevation' in m.post_window1('lemmas')) else 0
-    #32
     def LF_denote(m):
         return 1 if ('denote' in m.post_window1('lemmas')) else 0
-    #33
+    #32
     def LF_denotation(m):
         return 1 if ('denotation' in m.post_window1('lemmas')) else 0
-    #34
+    #33
     def LF_demonstration(m):
         return 1 if ('demonstration' in m.post_window1('lemmas')) else 0
-    
+    #34
+    def LF_magnification(m):
+        return 1 if ('magnification' in m.pre_window1('lemmas')) else 0
+    #35
+    def LF_depression(m):
+        return 1 if ('depression' in m.pre_window1('lemmas')) else 0
+    #36
+    def LF_boost(m):
+        return 1 if ('boost' in m.pre_window1('lemmas')) else 0
+    #37
+    def LF_level(m):
+        return 1 if ('level' in m.pre_window1('lemmas')) else 0
+    #38
+    def LF_advance(m):
+        return 1 if ('advance' in m.pre_window1('lemmas')) else 0
+    #39
+    def LF_augmentation(m):
+        return 1 if ('augmentation' in m.pre_window1('lemmas')) else 0
+    #40
+    def LF_decline(m):
+        return 1 if ('decline' in m.pre_window1('lemmas')) else 0
+    #41
+    def LF_lessening(m):
+        return 1 if ('lessening' in m.pre_window1('lemmas')) else 0
+    #42
+    def LF_enhancement(m):
+        return 1 if ('enhancement' in m.pre_window1('lemmas')) else 0
+    #43
+    def LF_expression(m):
+        return 1 if ('expression' in m.post_window1('lemmas')) else 0
+    #44
+    def LF_buildup(m):
+        return 1 if ('buildup' in m.pre_window1('lemmas')) else 0
+    #45
+    def LF_diminishing(m):
+        return 1 if ('diminishing' in m.pre_window1('lemmas')) else 0
+    #46
+    def LF_diminishment(m):
+        return 1 if ('diminishment' in m.pre_window1('lemmas')) else 0
+    #47
+    def LF_reduction(m):
+        return 1 if ('reduction' in m.pre_window1('lemmas')) else 0
+    #48
+    def LF_drop(m):
+        return 1 if ('drop' in m.pre_window1('lemmas')) else 0
+    #49
+    def LF_dwindling(m):
+        return 1 if ('dwindling' in m.pre_window1('lemmas')) else 0
+    #50
+    def LF_lowering(m):
+        return 1 if ('lowering' in m.pre_window1('lemmas')) else 0
 
 
     LFs = [LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate,
-           LF_found]
-    gts = []
-    uids = []
-    for tuple in mindtaggerToTruth("thefile.tsv"):
-        uids.append(tuple[0])
-        gts.append(tuple[1])
-    otherModel.update_gt(gts, uids=uids)
+           LF_found, LF_People, LF_diagnosed, LF_variant, LF_appear, LF_connect, LF_relate, LF_exhibit, LF_indicate, LF_signify, LF_show,
+           LF_demonstrate, LF_reveal, LF_suggest, LF_evidence, LF_indication, LF_elevation, LF_diagnosis, LF_variation, LF_modification,
+           LF_suggestion, LF_link, LF_derivation, LF_denote, LF_denotation, LF_demonstration, LF_magnification, LF_depression, LF_boost,
+           LF_level, LF_advance, LF_augmentation, LF_decline, LF_lessening, LF_enhancement, LF_expression, LF_buildup, LF_diminishing,
+           LF_diminishment, LF_reduction, LF_drop, LF_dwindling, LF_lowering]
+    gt = None
+    uids = None
     otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
+    input = raw_input("FISH")
     otherModel.add_mindtagger_tags()
+    otherModel.update_gt(gt[50:], uids=uids[50:])
 
     # otherModel.apply_lfs(LFs, clear=False)
     return otherModel
@@ -151,18 +200,3 @@ def doEverything():
     # # with open("thing.xml", "wb") as f:
     #
     # doEverything()
-    
-def mindtaggerToTruth(filename):
-    uids = []
-    list =  re.split("[^\\S ]", open(filename).read())
-    # print list
-    count = 7
-    while count < len(list):
-        number = 0
-        if(list[count + 6] == "true"):
-            number = 1
-        elif(list[count + 6] == "false"):
-            number = -1
-        uids.append((list[count + 5] + "::" + list[count + 3] + "::["  + list[count + 4] + ", " +  list[count] + "]::['" + list[count + 1] + "', '" + list[count + 2] + "']", number))
-        count += 7
-    return uids
