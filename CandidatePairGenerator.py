@@ -14,17 +14,15 @@ def doEverything():
 
     #1
     def LF_distance(m):
-        print ("CHECKING DISTANCE")
         distance = abs(m.e2_idxs[0] - m.e1_idxs[0])
         if distance < 10:
+            # print "RETURNING ONE"
             return 1
         else:
-            print "DISTANCE WAS FOUND TO BE" + distance
             return 0
     #7
     def LF_associate(m):
        if ('associate' in m.post_window1('lemmas')) and ('associate' in m.pre_window2('lemmas')) :
-           print ("RETURNED 1")
            return 1
        else:
            return 0
@@ -56,12 +54,21 @@ def doEverything():
 
 
     LFs = [LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate, LF_found]
-    otherModel.apply_lfs(LFs, clear=False)
-    """DEBUGGING CODE"""
+    gt = None
+    uids = None
     otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
+    input = raw_input("FISH")
     otherModel.add_mindtagger_tags()
-    input = raw_input("ASDF)")
-    """END"""
+    otherModel.update_gt(gt[50:], uids=uids[50:])
+
+    # otherModel.apply_lfs(LFs, clear=False)
+    return otherModel
+    # """DEBUGGING CODE"""
+    # otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
+    # otherModel.add_mindtagger_tags()
+    # otherModel.plot_lf_stats()
+    #
+    # """END"""
 # # with open("thing.xml", "wb") as f:
 #
-doEverything()
+# doEverything()
