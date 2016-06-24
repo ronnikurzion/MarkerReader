@@ -13,7 +13,7 @@ def doEverything():
     feats = possiblePairs.extract_features()
     otherModel = DDLiteModel(possiblePairs, feats)
 
-    # 1
+     # 1
     def LF_distance(m):
         distance = abs(m.e2_idxs[0] - m.e1_idxs[0])
         if distance < 10:
@@ -21,91 +21,119 @@ def doEverything():
             return 0
         else:
             return -1
+
     # 2
     def LF_associate(m):
         if ('associate' in m.post_window1('lemmas')) and ('associate' in m.pre_window2('lemmas')):
             return 1
         else:
             return 0
+
     # 3
     def LF_express(m):
         return 1 if ('express' in m.post_window1('lemmas')) and ('express' in m.pre_window2('lemmas')) else 0
+
     # 4
     def LF_marker(m):
         return 1 if ('marker' in m.post_window1('lemmas') or 'biomarker' in m.post_window1('lemmas')) and (
-        'marker' in m.post_window2('lemmas') or 'biomarker' in m.post_window2('lemmas')) else 0
+            'marker' in m.post_window2('lemmas') or 'biomarker' in m.post_window2('lemmas')) else 0
+
     # 5
     def LF_elevated(m):
         return 1 if ('elevated' in m.post_window1('lemmas')) and ('elevated' in m.pre_window2('lemmas')) else 0
+
     def LF_decreased(m):
         return 1 if ('decreased' in m.post_window1('lemmas')) and ('decreased' in m.pre_window2('lemmas')) else 0
+
     # 6
     def LF_correlation(m):
         return 1 if ('correlation' in m.pre_window1('lemmas')) else 0
+
     # 7
     def LF_correlate(m):
         return 1 if ('correlates' in m.post_window1('lemmas')) and ('found' in m.pre_window2('lemmas')) else 0
+
     # 8
     def LF_found(m):
         return 1 if ('found' in m.post_window1('lemmas')) and ('found' in m.pre_window2('lemmas')) else 0
+
     # 9 (-1 if biomarker is confused with a name of a person)
     def LF_People(m):
         return -1 if ('NNP' in m.mention1(attribute='poses')) else 0
-    #10
+
+    # 10
     def LF_diagnosed(m):
-        return 1 if('diagnose' in m.post_window1('lemmas')) else 0
-    #11
+        return 1 if ('diagnose' in m.post_window1('lemmas')) else 0
+
+    # 11
     def LF_variant(m):
-        return 1 if('variant of' in m.pre_window1('lemmas')) else 0
-    #12
+        return 1 if ('variant of' in m.pre_window1('lemmas')) else 0
+
+    # 12
     def LF_appear(m):
         return 1 if ('appear' in m.post_window1('lemmas')) else 0
-    #13
+
+    # 13
     def LF_connect(m):
         return 1 if ('connect' in m.post_window1('lemmas')) else 0
-    #14
+
+    # 14
     def LF_relate(m):
         return 1 if ('relate' in m.post_window1('lemmas')) else 0
-    #15
+
+    # 15
     def LF_exhibit(m):
         return 1 if ('exhibit' in m.post_window1('lemmas')) else 0
-    #16
+
+    # 16
     def LF_indicate(m):
         return 1 if ('indicate' in m.post_window1('lemmas')) else 0
-    #17
+
+    # 17
     def LF_signify(m):
         return 1 if ('signify' in m.post_window1('lemmas')) else 0
-    #18
+
+    # 18
     def LF_show(m):
         return 1 if ('show' in m.post_window1('lemmas')) else 0
-    #19
+
+    # 19
     def LF_demonstrate(m):
         return 1 if ('demonstrate' in m.post_window1('lemmas')) else 0
-    #20
+
+    # 20
     def LF_reveal(m):
         return 1 if ('reveal' in m.post_window1('lemmas')) else 0
-    #21
+
+    # 21
     def LF_suggest(m):
         return 1 if ('suggest' in m.post_window1('lemmas')) else 0
-    #22
+
+    # 22
     def LF_evidence(m):
         return 1 if ('evidence for' in m.post_window1('lemmas')) else 0
-    #23
+
+    # 23
     def LF_indication(m):
         return 1 if ('indication of' in m.post_window1('lemmas')) else 0
-    #24
+
+    # 24
     def LF_elevation(m):
         return 1 if ('elevation' in m.post_window1('lemmas')) else 0
-    #25
+
+    # 25
     def LF_diagnosis(m):
         return 1 if ('diagnosis of' in m.post_window1('lemmas')) else 0
-    #26
+
+    # 26
     def LF_variation(m):
         return 1 if ('variation of' in m.pre_window1('lemmas')) else 0
-    #27
+
+    # 27
     def LF_modification(m):
         return 1 if ('modification of' in m.pre_window1('lemmas')) else 0
-    #28
+
+    # 28
     def LF_suggestion(m):
         return 1 if ('suggestion' in m.post_window1('lemmas')) else 0
 
@@ -196,19 +224,70 @@ def doEverything():
     # 50
     def LF_lowering(m):
         return 1 if ('lowering' in m.pre_window1('lemmas')) else 0
-    #51
+
+    # 51
     def LF_possible(m):
         return -1 if ('possible' in m.pre_window1('lemmas')) else 0
-    #52
+
+    # 52
     def LF_explore(m):
         return -1 if ('explore' in m.pre_window1('lemmas')) else 0
-    #53
+
+    # 53
     def LF_key(m):
         # print m.pre_window1('lemmas')
-        return -1 if ('abbreviation' in m.pre_window1('lemmas') or ('word' in m.pre_window1('lemmas')and 'key' in m.pre_window1('lemmas'))) else 0
+        return -1 if ('abbreviation' in m.pre_window1('lemmas') or (
+        'word' in m.pre_window1('lemmas') and 'key' in m.pre_window1('lemmas'))) else 0
+
+    # 54
     def LF_investigate(m):
-            return -1 if ('investigate' in m.pre_window1('lemmas')) else 0
-    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate, LF_found, LF_People, LF_diagnosed, LF_variant, LF_appear, LF_connect, LF_relate, LF_exhibit, LF_indicate,LF_signify, LF_show,LF_demonstrate, LF_reveal, LF_suggest, LF_evidence, LF_indication, LF_elevation, LF_diagnosis,LF_variation, LF_modification,LF_suggestion, LF_link, LF_derivation, LF_denote, LF_denotation, LF_demonstration, LF_magnification,LF_depression, LF_boost,LF_level, LF_advance, LF_augmentation, LF_decline, LF_lessening, LF_enhancement, LF_expression,LF_buildup, LF_diminishing,LF_diminishment, LF_reduction, LF_drop, LF_dwindling, LF_lowering]
+        return -1 if ('investigate' in m.pre_window1('lemmas')) else 0
+
+    # 55
+    def LF_yetToBeConfirmed(m):
+        return -1 if ('yet' and 'to' and 'be' and 'confirmed' in m.post_window1('lemmas')) else 0
+
+    # 56
+    def LF_notAssociated(m):
+        return -1 if ('not' and 'associated' in m.post_window('lemmas')) else 0
+
+    # 56
+    def LF_notRelated(m):
+        return -1 if ('not' and 'related' in m.post_window('lemmas')) else 0
+
+    # 57
+    def LF_doesNotShow(m):
+        return -1 if ('does' and 'not' and 'show' in m.post_window('lemmas')) else 0
+
+    # 58
+    def LF_notLinked(m):
+        return -1 if ('not' and 'linked' in m.post_window('lemmas')) else 0
+
+    # 59
+    def LF_notCorrelated(m):
+        return -1 if ('not' and 'correlated' in m.post_window('lemmas')) else 0
+
+    # 60
+    def LF_disprove(m):
+        return -1 if ('disprove' in m.post_window('lemmas')) else 0
+
+    # 61
+    def LF_refute(m):
+        return -1 if ('disprove' in m.post_window('lemmas')) else 0
+
+    # 62
+    def LF_doesNotSignify(m):
+        return -1 if ('does' and 'not' and 'signify' in m.post_window('lemmas')) else 0
+
+    # 63
+    def LF_doesNotIndicate(m):
+        return -1 if ('does' and 'not' and 'indicate' in m.post_window('lemmas')) else 0
+
+     # 64
+    def LF_doesNotImply(m):
+        return -1 if ('does' and 'not' and 'imply' in m.post_window('lemmas')) else 0
+
+    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate, LF_found, LF_People, LF_diagnosed, LF_variant, LF_appear, LF_connect, LF_relate, LF_exhibit, LF_indicate,LF_signify, LF_show,LF_demonstrate, LF_reveal, LF_suggest, LF_evidence, LF_indication, LF_elevation, LF_diagnosis,LF_variation, LF_modification,LF_suggestion, LF_link, LF_derivation, LF_denote, LF_denotation, LF_demonstration, LF_magnification,LF_depression, LF_boost,LF_level, LF_advance, LF_augmentation, LF_decline, LF_lessening, LF_enhancement, LF_expression,LF_buildup, LF_diminishing,LF_diminishment, LF_reduction, LF_drop, LF_dwindling, LF_lowering, LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated, LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_refute, LF_doesNotSignify, LF_doesNotIndiate, LF_doesNotImply]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags4.tsv"):
