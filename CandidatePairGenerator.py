@@ -13,7 +13,7 @@ def doEverything():
     feats = possiblePairs.extract_features()
     otherModel = DDLiteModel(possiblePairs, feats)
 
-     # 1
+    # 1
     def LF_distance(m):
         distance = abs(m.e2_idxs[0] - m.e1_idxs[0])
         if distance < 10:
@@ -245,27 +245,27 @@ def doEverything():
 
     # 55
     def LF_yetToBeConfirmed(m):
-        return -1 if ('yet' and 'to' and 'be' and 'confirmed' in m.post_window1('lemmas')) else 0
+        return -1 if ('yet' in m.post_window1('lemmas') and 'to' in m.post_window1('lemmas') and 'be' in m.post_window1('lemmas') and 'confirmed' in m.post_window1('lemmas')) else 0
 
     # 56
     def LF_notAssociated(m):
-        return -1 if ('not' and 'associated' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'associated' in m.post_window('lemmas')) else 0
 
     # 56
     def LF_notRelated(m):
-        return -1 if ('not' and 'related' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'related' in m.post_window('lemmas')) else 0
 
     # 57
     def LF_doesNotShow(m):
-        return -1 if ('does' and 'not' and 'show' in m.post_window('lemmas')) else 0
+        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'show' in m.post_window('lemmas')) else 0
 
     # 58
     def LF_notLinked(m):
-        return -1 if ('not' and 'linked' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'linked' in m.post_window('lemmas')) else 0
 
     # 59
     def LF_notCorrelated(m):
-        return -1 if ('not' and 'correlated' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'correlated' in m.post_window('lemmas')) else 0
 
     # 60
     def LF_disprove(m):
@@ -277,15 +277,15 @@ def doEverything():
 
     # 62
     def LF_doesNotSignify(m):
-        return -1 if ('does' and 'not' and 'signify' in m.post_window('lemmas')) else 0
+        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'signify' in m.post_window('lemmas')) else 0
 
     # 63
     def LF_doesNotIndicate(m):
-        return -1 if ('does' and 'not' and 'indicate' in m.post_window('lemmas')) else 0
+        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'indicate' in m.post_window('lemmas')) else 0
 
      # 64
     def LF_doesNotImply(m):
-        return -1 if ('does' and 'not' and 'imply' in m.post_window('lemmas')) else 0
+        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window('lemmas')) else 0
 
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate, LF_found, LF_People, LF_diagnosed, LF_variant, LF_appear, LF_connect, LF_relate, LF_exhibit, LF_indicate,LF_signify, LF_show,LF_demonstrate, LF_reveal, LF_suggest, LF_evidence, LF_indication, LF_elevation, LF_diagnosis,LF_variation, LF_modification,LF_suggestion, LF_link, LF_derivation, LF_denote, LF_denotation, LF_demonstration, LF_magnification,LF_depression, LF_boost,LF_level, LF_advance, LF_augmentation, LF_decline, LF_lessening, LF_enhancement, LF_expression,LF_buildup, LF_diminishing,LF_diminishment, LF_reduction, LF_drop, LF_dwindling, LF_lowering, LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated, LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_refute, LF_doesNotSignify, LF_doesNotIndicate, LF_doesNotImply]
     gts = []
