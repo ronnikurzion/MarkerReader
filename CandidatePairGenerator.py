@@ -44,8 +44,8 @@ def doEverything():
                     return -1
                 else:
                     return 1
-            else:
-                return 0
+    
+        return 0
 
     # def LF_associate(m):
     #     if ('associate' in m.post_window1('lemmas')) and ('associate' in m.pre_window2('lemmas')):
