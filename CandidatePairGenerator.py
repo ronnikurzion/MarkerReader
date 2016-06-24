@@ -280,7 +280,7 @@ def doEverything():
     def LF_doesNotImply(m):
         return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window('lemmas')) else 0
 
-    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword
+    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_refute, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply]gts = []
