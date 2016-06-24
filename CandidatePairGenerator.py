@@ -14,13 +14,14 @@ def doEverything():
     otherModel = DDLiteModel(possiblePairs, feats)
     keyWords = ["associate", "express", "marker", "biomarker", "elevated", "decreased",
                 "correlation", "correlates", "found", "diagnose", "variant", "appear",
-                "connect", "relate", "exhibit", "indicate", "signify","show", "demonstrate",
+                "connect", "relate", "exhibit", "indicate", "signify", "show", "demonstrate",
                 "reveal", "suggest", "evidence", "elevation", "indication", "diagnosis",
-                "variation", "modification", "suggestion" , "link", "derivation", "denote",
+                "variation", "modification", "suggestion", "link", "derivation", "denote",
                 "denotation", "demonstration", "magnification", "depression", "boost", "level",
-                "advance", "augmentation", "lessening", "enhancement","expression", "buildup",
+                "advance", "augmentation", "lessening", "enhancement", "expression", "buildup",
                 "diminishing", "diminishment", "reduction", "drop", "dwindling", "lowering"]
     negationWords = ["not", "nor", "neither"]
+
     def presenceOfNot(m):
         for word in negationWords:
             if (word in m.post_window1('lemmas')) and (word in m.pre_window2('lemmas')):
@@ -35,6 +36,7 @@ def doEverything():
             return 0
         else:
             return -1
+
     def LF_keyword(m):
         for word in keyWords:
             if (word in m.post_window1('lemmas')) and (word in m.pre_window2('lemmas')):
@@ -74,6 +76,7 @@ def doEverything():
     # 9 (-1 if biomarker is confused with a name of a person)
     def LF_People(m):
         return -1 if ('NNP' in m.mention1(attribute='poses')) else 0
+
     # #10
     # def LF_diagnosed(m):
     #     return 1 if('diagnose' in m.post_window1('lemmas')) else 0
@@ -219,18 +222,19 @@ def doEverything():
     # # 50
     # def LF_lowering(m):
     #     return 1 if ('lowering' in m.pre_window1('lemmas')) else 0
-    #51
+    # 51
     def LF_possible(m):
         return -1 if ('possible' in m.pre_window1('lemmas')) else 0
-    #52
+
+    # 52
     def LF_explore(m):
         return -1 if ('explore' in m.pre_window1('lemmas')) else 0
-    
+
     # 53
     def LF_key(m):
         # print m.pre_window1('lemmas')
         return -1 if ('abbreviation' in m.pre_window1('lemmas') or (
-        'word' in m.pre_window1('lemmas') and 'key' in m.pre_window1('lemmas'))) else 0
+            'word' in m.pre_window1('lemmas') and 'key' in m.pre_window1('lemmas'))) else 0
 
     # 54
     def LF_investigate(m):
@@ -238,52 +242,60 @@ def doEverything():
 
     # 55
     def LF_yetToBeConfirmed(m):
-        return -1 if ('yet' in m.post_window1('lemmas') and 'to' in m.post_window1('lemmas') and 'be' in m.post_window1('lemmas') and 'confirmed' in m.post_window1('lemmas')) else 0
+        return -1 if ('yet' in m.post_window1('lemmas') and 'to' in m.post_window1('lemmas') and 'be' in m.post_window1(
+            'lemmas') and 'confirmed' in m.post_window1('lemmas')) else 0
 
     # 56
     def LF_notAssociated(m):
-        return -1 if ('not' in m.post_window1('lemmas') and 'associated' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'associated' in m.post_window2('lemmas')) else 0
 
     # 56
     def LF_notRelated(m):
-        return -1 if ('not' in m.post_window1('lemmas') and 'related' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'related' in m.post_window2('lemmas')) else 0
 
     # 57
     def LF_doesNotShow(m):
-        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'show' in m.post_window('lemmas')) else 0
+        return -1 if (
+        'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'show' in m.post_window2(
+            'lemmas')) else 0
 
     # 58
     def LF_notLinked(m):
-        return -1 if ('not' in m.post_window1('lemmas') and 'linked' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'linked' in m.post_window2('lemmas')) else 0
 
     # 59
     def LF_notCorrelated(m):
-        return -1 if ('not' in m.post_window1('lemmas') and 'correlated' in m.post_window('lemmas')) else 0
+        return -1 if ('not' in m.post_window1('lemmas') and 'correlated' in m.post_window2('lemmas')) else 0
 
     # 60
     def LF_disprove(m):
-        return -1 if ('disprove' in m.post_window('lemmas')) else 0
+        return -1 if ('disprove' in m.post_window1('lemmas')) else 0
 
-    # 61
-    def LF_refute(m):
-        return -1 if ('disprove' in m.post_window('lemmas')) else 0
 
     # 62
     def LF_doesNotSignify(m):
-        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'signify' in m.post_window('lemmas')) else 0
+        return -1 if (
+        'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'signify' in m.post_window(
+            'lemmas')) else 0
 
     # 63
     def LF_doesNotIndicate(m):
-        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'indicate' in m.post_window('lemmas')) else 0
+        return -1 if (
+        'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'indicate' in m.post_window(
+            'lemmas')) else 0
 
-     # 64
+        # 64
+
     def LF_doesNotImply(m):
-        return -1 if ('does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window('lemmas')) else 0
+        return -1 if (
+        'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window(
+            'lemmas')) else 0
 
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_refute, LF_doesNotSignify,
-           LF_doesNotIndicate, LF_doesNotImply]gts = []
+           LF_doesNotIndicate, LF_doesNotImply]
+    gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags4.tsv"):
         uids.append(tuple[0])
@@ -303,18 +315,20 @@ def doEverything():
     # # with open("thing.xml", "wb") as f:
     #
     # doEverything()
-    
+
+
 def mindtaggerToTruth(filename):
     uids = []
-    list =  re.split("[^\\S ]", open(filename).read())
+    list = re.split("[^\\S ]", open(filename).read())
     # print list
     count = 7
     while count < len(list):
         number = 0
-        if(list[count + 6] == "true"):
+        if (list[count + 6] == "true"):
             number = 1
-        elif(list[count + 6] == "false"):
+        elif (list[count + 6] == "false"):
             number = -1
-        uids.append((list[count + 5] + "::" + list[count + 3] + "::["  + list[count + 4] + ", " +  list[count] + "]::['" + list[count + 1] + "', '" + list[count + 2] + "']", number))
+        uids.append((list[count + 5] + "::" + list[count + 3] + "::[" + list[count + 4] + ", " + list[count] + "]::['" +
+                     list[count + 1] + "', '" + list[count + 2] + "']", number))
         count += 7
     return uids
