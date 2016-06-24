@@ -225,71 +225,7 @@ def doEverything():
     #52
     def LF_explore(m):
         return -1 if ('explore' in m.pre_window1('lemmas')) else 0
-    #53
-    def LF_key(m):
-        # print m.pre_window1('lemmas')
-        return -1 if ('abbreviation' in m.pre_window1('lemmas') or ('word' in m.pre_window1('lemmas')and 'key' in m.pre_window1('lemmas'))) else 0
-    #54
-    def LF_investigate(m):
-            return -1 if ('investigate' in m.pre_window1('lemmas')) else 0
-            # 55
-
-    def LF_yetToBeConfirmed(m):
-        return -1 if ('yet' and 'to' and 'be' and 'confirmed' in m.post_window1('lemmas')) else 0
-
-        # 56
-
-    def LF_notAssociated(m):
-        return -1 if (('not' and 'associated') in m.post_window('lemmas')) else 0
-
-        # 56
-
-    def LF_notRelated(m):
-        return -1 if ('not' and 'related' in m.post_window('lemmas')) else 0
-
-        # 57
-
-    def LF_doesNotShow(m):
-        return -1 if ('does' and 'not' and 'show' in m.post_window('lemmas')) else 0
-
-        # 58
-
-    def LF_notLinked(m):
-        return -1 if ('not' and 'linked' in m.post_window('lemmas')) else 0
-
-        # 59
-
-    def LF_notCorrelated(m):
-        return -1 if ('not' and 'correlated' in m.post_window('lemmas')) else 0
-
-        # 60
-
-    def LF_disprove(m):
-        return -1 if ('disprove' in m.post_window('lemmas')) else 0
-
-        # 61
-
-    def LF_refute(m):
-        return -1 if ('disprove' in m.post_window('lemmas')) else 0
-        # 62
-
-    def LF_doesNotSignify(m):
-        return -1 if ('does' and 'not' and 'signify' in m.post_window('lemmas')) else 0
-
-        # 63
-
-    def LF_doesNotIndicate(m):
-        return -1 if ('does' and 'not' and 'indicate' in m.post_window('lemmas')) else 0
-
-        # 64
-
-    def LF_doesNotImply(m):
-        return -1 if ('does' and 'not' and 'imply' in m.post_window('lemmas')) else 0
-
-    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
-           LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
-           LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_refute, LF_doesNotSignify, LF_doesNotIndicate,
-           LF_doesNotImply]
+    
     # 53
     def LF_key(m):
         # print m.pre_window1('lemmas')
