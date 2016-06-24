@@ -18,9 +18,9 @@ def doEverything():
         distance = abs(m.e2_idxs[0] - m.e1_idxs[0])
         if distance < 10:
             # print "RETURNING ONE"
-            return 1
-        else:
             return 0
+        else:
+            return -1
     # 2
     def LF_associate(m):
         if ('associate' in m.post_window1('lemmas')) and ('associate' in m.pre_window2('lemmas')):
@@ -108,39 +108,117 @@ def doEverything():
     #28
     def LF_suggestion(m):
         return 1 if ('suggestion' in m.post_window1('lemmas')) else 0
-    #29
+
+    # 29
     def LF_link(m):
         return 1 if ('link' in m.post_window1('lemmas')) else 0
-    #30
+
+    # 30
     def LF_derivation(m):
         return 1 if ('derivation of' in m.pre_window1('lemmas')) else 0
-    #31
-    def LF_elevation(m):
-        return 1 if ('elevation' in m.post_window1('lemmas')) else 0
-    #32
+
+    # 31
     def LF_denote(m):
         return 1 if ('denote' in m.post_window1('lemmas')) else 0
-    #33
+
+    # 32
     def LF_denotation(m):
         return 1 if ('denotation' in m.post_window1('lemmas')) else 0
-    #34
+
+    # 33
     def LF_demonstration(m):
         return 1 if ('demonstration' in m.post_window1('lemmas')) else 0
-    
 
+    # 34
+    def LF_magnification(m):
+        return 1 if ('magnification' in m.pre_window1('lemmas')) else 0
 
-    LFs = [LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate,
-           LF_found]
+    # 35
+    def LF_depression(m):
+        return 1 if ('depression' in m.pre_window1('lemmas')) else 0
+
+    # 36
+    def LF_boost(m):
+        return 1 if ('boost' in m.pre_window1('lemmas')) else 0
+
+    # 37
+    def LF_level(m):
+        return 1 if ('level' in m.pre_window1('lemmas')) else 0
+
+    # 38
+    def LF_advance(m):
+        return 1 if ('advance' in m.pre_window1('lemmas')) else 0
+
+    # 39
+    def LF_augmentation(m):
+        return 1 if ('augmentation' in m.pre_window1('lemmas')) else 0
+
+    # 40
+    def LF_decline(m):
+        return 1 if ('decline' in m.pre_window1('lemmas')) else 0
+
+    # 41
+    def LF_lessening(m):
+        return 1 if ('lessening' in m.pre_window1('lemmas')) else 0
+
+    # 42
+    def LF_enhancement(m):
+        return 1 if ('enhancement' in m.pre_window1('lemmas')) else 0
+
+    # 43
+    def LF_expression(m):
+        return 1 if ('expression' in m.post_window1('lemmas')) else 0
+
+    # 44
+    def LF_buildup(m):
+        return 1 if ('buildup' in m.pre_window1('lemmas')) else 0
+
+    # 45
+    def LF_diminishing(m):
+        return 1 if ('diminishing' in m.pre_window1('lemmas')) else 0
+
+    # 46
+    def LF_diminishment(m):
+        return 1 if ('diminishment' in m.pre_window1('lemmas')) else 0
+
+    # 47
+    def LF_reduction(m):
+        return 1 if ('reduction' in m.pre_window1('lemmas')) else 0
+
+    # 48
+    def LF_drop(m):
+        return 1 if ('drop' in m.pre_window1('lemmas')) else 0
+
+    # 49
+    def LF_dwindling(m):
+        return 1 if ('dwindling' in m.pre_window1('lemmas')) else 0
+
+    # 50
+    def LF_lowering(m):
+        return 1 if ('lowering' in m.pre_window1('lemmas')) else 0
+    #51
+    def LF_possible(m):
+        return -1 if ('possible' in m.pre_window1('lemmas')) else 0
+    #52
+    def LF_explore(m):
+        return -1 if ('explore' in m.pre_window1('lemmas')) else 0
+    #53
+    def LF_key(m):
+        # print m.pre_window1('lemmas')
+        return -1 if ('abbreviation' in m.pre_window1('lemmas') or ('word' in m.pre_window1('lemmas')and 'key' in m.pre_window1('lemmas'))) else 0
+    def LF_investigate(m):
+            return -1 if ('investigate' in m.pre_window1('lemmas')) else 0
+    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_associate, LF_express, LF_marker, LF_elevated, LF_decreased, LF_correlation, LF_correlate, LF_found, LF_People, LF_diagnosed, LF_variant, LF_appear, LF_connect, LF_relate, LF_exhibit, LF_indicate,LF_signify, LF_show,LF_demonstrate, LF_reveal, LF_suggest, LF_evidence, LF_indication, LF_elevation, LF_diagnosis,LF_variation, LF_modification,LF_suggestion, LF_link, LF_derivation, LF_denote, LF_denotation, LF_demonstration, LF_magnification,LF_depression, LF_boost,LF_level, LF_advance, LF_augmentation, LF_decline, LF_lessening, LF_enhancement, LF_expression,LF_buildup, LF_diminishing,LF_diminishment, LF_reduction, LF_drop, LF_dwindling, LF_lowering]
     gts = []
     uids = []
-    for tuple in mindtaggerToTruth("thefile.tsv"):
+    for tuple in mindtaggerToTruth("tags4.tsv"):
         uids.append(tuple[0])
         gts.append(tuple[1])
     otherModel.update_gt(gts, uids=uids)
     otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
     otherModel.add_mindtagger_tags()
 
-    # otherModel.apply_lfs(LFs, clear=False)
+    otherModel.apply_lfs(LFs, clear=False)
     return otherModel
     # """DEBUGGING CODE"""
     # otherModel.open_mindtagger(num_sample=100, width='100%', height=1200)
