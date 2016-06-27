@@ -339,6 +339,11 @@ def doEverything():
     def LF_induced(m):
         return 1 if (
             'induced' in m.post_window1('lemmas') and 'induced' in m.pre_window1('lemmas')) else 0
+    
+    # 74
+    def LF_treatment(m):
+        return 1 if (
+            'treatment' in m.post_window1('lemmas') and 'treatment' in m.pre_window1('lemmas')) else 0
 
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
