@@ -357,8 +357,13 @@ def doEverything():
         return -1 if (
             'was' in m.post_window1('lemmas', 20) and 'not' in m.post_window1('lemmas', 20) and 'found' in m.post_window1(
                 'lemmas', 20)) else 0
-                
-    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
+    #77
+    def LF_auxpass(m):
+        if not ('auxpass' and 'aux') in (m.post_window1('dep_labels', 20) and m.pre_window2('dep_labels', 20)):
+            return -1
+        else:
+            return 0
+    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,LF_auxpass
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
