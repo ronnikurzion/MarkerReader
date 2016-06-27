@@ -363,11 +363,28 @@ def doEverything():
             return -1
         else:
             return 0
+    #78
+    def LF_usedToTest(m):
+        return 1 if('used' in m.post_window1('lemmas', 20) and 'test' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
+            'lemmas', 20) and 'test' in m.pre_window2('lemmas', 20)) else 0
+    #79
+    def LF_usedToDiagonse(m):
+        return 1 if('used' in m.post_window1('lemmas', 20) and 'diagnose' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
+            'lemmas', 20) and 'diagnose' in m.pre_window2('lemmas', 20)) else 0
+    #80
+    def LF_usedToMeasure(m):
+        return 1 if('used' in m.post_window1('lemmas', 20) and 'measure' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
+            'lemmas', 20) and 'measure' in m.pre_window2('lemmas', 20)) else 0
+    #81
+    def LF_drug(m):
+        return 1 if('drug' in m.post_window1('lemmas', 20) or 'drug' in m.pre_window2('lemmas', 20)) else 0
+    
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,LF_auxpass
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
-           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_indicator, LF_wasNotFound]
+           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_indicator, LF_wasNotFound, LF_auxpass,
+           LF_usedToTest, LF_usedToDiagnose, LF_usedToMeasure, LF_drug]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags5.tsv"):
