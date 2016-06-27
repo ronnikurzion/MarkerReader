@@ -285,11 +285,60 @@ def doEverything():
             'lemmas')) else 0
 
         # 64
-
     def LF_doesNotImply(m):
         return -1 if (
-        'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window(
-            'lemmas')) else 0
+            'does' in m.post_window1('lemmas') and 'not' in m.post_window1('lemmas') and 'imply' in m.post_window(
+                'lemmas')) else 0
+
+    #65
+    def LF_studies(m):
+        return 1 if (
+            'studies' in m.pre_window1('lemmas') and 'have' in m.pre_window1('lemmas') and'reported' in m.pre_window1(
+                'lemmas')) else 0
+
+    # 66
+    def LF_studies2(m):
+        return 1 if (
+            'studies' in m.pre_window1('lemmas') and 'have' in m.pre_window1('lemmas') and 'disclosed' in m.pre_window1(
+                'lemmas')) else 0
+
+    #67
+    def LF_studies3(m):
+        return 1 if (
+            'studies' in m.pre_window1('lemmas') and 'have' in m.pre_window1('lemmas') and'disclosed' in m.pre_window1('lemmas')) else 0
+
+    # 68
+
+    def LF_studies4(m):
+        return 1 if (
+            'studies' in m.pre_window1('lemmas') and 'have' in m.pre_window1('lemmas') and 'expressed' in m.pre_window1(
+                'lemmas')) else 0
+
+    # 69
+    def LF_interesting(m):
+        return 1 if (
+            'is' in m.post_window1('lemmas') and 'an' in m.post_window1('lemmas') and 'interesting' in m.post_window1(
+                'lemmas') and 'target' in m.post_window1('lemmas') and 'is' in m.pre_window2('lemmas') and 'an' in
+                m.pre_window2('lemmas') and 'interesting' in m.pre_window2('lemmas') and 'target' in m.pre_window2(
+                'lemmas')) else 0
+    # 70
+    def LF_discussion(m):
+        return 1 if (
+            'discussion' in m.pre_window1('lemmas')) else 0
+
+    # 71
+    def LF_conclusion(m):
+        return 1 if (
+            'conclusion' in m.pre_window1('lemmas')) else 0
+
+    # 72
+    def LF_recently(m):
+        return 1 if (
+            'recently' in m.pre_window1('lemmas') or 'recently' in m.post_window1('lemmas')) else 0
+    # 73
+    def LF_induced(m):
+        return 1 if (
+            'induced' in m.post_window1('lemmas') and 'induced' in m.pre_window1('lemmas')) else 0
 
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
