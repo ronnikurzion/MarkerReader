@@ -343,7 +343,8 @@ def doEverything():
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
-           LF_doesNotIndicate, LF_doesNotImply]
+           LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
+           LF_discussion, LF_conclusion, LF_recently]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags4.tsv"):
