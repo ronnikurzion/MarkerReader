@@ -348,11 +348,24 @@ def doEverything():
         return 1 if (
             'treatment' in m.pre_window1('lemmas', 20) or 'treatment' in m.post_window1('lemmas', 20)) else 0
 
+    #75
+    def LF_indicator(m):
+        return 1 if (
+            'indicator' in m.post_window1('lemmas', 20) or 'indicator' in m.post_window2('lemmas', 20)) else 0
+    
+    #76
+    def LF_wasNotFound(m):
+        return -1 if (
+            'was' in m.post_window1('lemmas', 20) and 'not' in m.post_window1('lemmas', 20) and 'found' in m.post_window1(
+                'lemmas', 20)) else 0
+    
+    
+
     LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
-           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment]
+           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_indicator]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags5.tsv"):
