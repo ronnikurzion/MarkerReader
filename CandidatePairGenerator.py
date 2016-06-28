@@ -355,35 +355,50 @@ def doEverything():
             else:
                 return 0
     def LF_inbetween(m):
-        # with open('diseaseDatabase.pickle', 'rb') as f:
-        #     diseaseDictionary = pickle.load(f)
-        # with open('diseaseAbbreviationsDatabase.pickle', 'rb') as f:
-        #     diseaseAbb = pickle.load(f)
-        # with open('markerData.pickle', 'rb') as f:
-        #     markerDatabase = pickle.load(f)
-        # for marker in markerDatabase:
-        #     if(marker in list[m.e1_idxs[0] : m.e2_idxs[0]]):
-        #         return -1
-        # for disease in diseaseDictionary:
-        #     if (disease in list[m.e1_idxs[0]: m.e2_idxs[0]]):
-        #         return -1
-        # for disease in diseaseAbb:
-        #     if (marker in list[m.e1_idxs[0]: m.e2_idxs[0]]):
-        #         return -1
+        with open('diseaseDatabase.pickle', 'rb') as f:
+            diseaseDictionary = pickle.load(f)
+        with open('diseaseAbbreviationsDatabase.pickle', 'rb') as f:
+            diseaseAbb = pickle.load(f)
+        with open('markerData.pickle', 'rb') as f:
+            markerDatabase = pickle.load(f)
+        for marker in markerDatabase:
+            if(marker in list[m.e1_idxs[0] : m.e2_idxs[0]]):
+                return -1
+        for disease in diseaseDictionary:
+            if (disease in list[m.e1_idxs[0]: m.e2_idxs[0]]):
+                return -1
+        for disease in diseaseAbb:
+            if (marker in list[m.e1_idxs[0]: m.e2_idxs[0]]):
+                return -1
         return 0
     def LF_patientsWith(m):
-        return 1 if ('patient' in m.post_window2('lemmas', 3)) and ('with' in m.post_window2('lemmas',2)) else 0
+        return 1 if ('patient' in m.post_window2('lemmas', 3)) and ('with' in m.post_window2('lemmas',2) else 0
+    
+    def LF_isaBiomarker(m)
+        post_window1_lemmas = m.post_window1('lemmas',20)
+        pre_window2_lemmas = m.pre_window2('lemmas',20)
         
-    def LF_mark(m):
-        return -1 if('mark' in m.post_window1('dep_labels', 20) and 'mark' in m.pre_window2('dep_labels', 20)) or ('mark'
-        in m.pre_window1('dep_labels', 20)) else 0
+        if ('biomarker' in post_window1_lemmas and 'biomarker' in pre_window2_lemmas) or
+        ('marker' in post_window1_lemmas and 'marker' in pre_window2_lemmas) or
+        ('indicator' in post_window1_lemmas and 'indicator' in pre_window2_lemmas):
+            marker_idx_post_window1 = -1
+            markers = ['biomarker','marker','indicator]
+            for marker in markers
+                findMarker = post_window1.find(marker)
+                if (findMarker is not -1)
+                    marker_idx_post_window1 = findMarker
+            if 'cop' in m.post_window1('dep_labels',20):
+                cop_idx_post_window1 = m.post_window1('dep_labels',20).find('cop')
+                return 1 if (('nsubj' in m.mention1(attribute='dep_labels') and
+                (marker_idx_post_window1 == m.post_window1('dep_parents',20)[cop_idx_post_window1]) and 
+                ('ROOT' is m.post_window1('dep_labels',20)[marker_idx_post_window1])) else 0
+            
         
     LFs = [LF_investigate, LF_key,  LF_distance, LF_keyword, LF_auxpass, LF_inbetween,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
-           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_auxpass, LF_inbetween, LF_patientsWith,
-           LF_mark]
+           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags5.tsv"):
