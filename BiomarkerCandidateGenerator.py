@@ -4,13 +4,6 @@ from ddlite import *
 
 import pickle
 
-#TODO:
-
-#-Remove Author's names
-
-#-Using both Dictionary Match and Syntax Match will overcount
-
-#Parse AGR2 document into seperate Sentences
 
 def parseDocIntoWords():
 
@@ -36,7 +29,6 @@ def parseDocIntoWords():
 
         words.append(sentence)
 
-    # print words
 
     return words
 
@@ -56,7 +48,6 @@ def biomarkerGenerator(words):
 
         markerDatabase = pickle.load(f)
 
-    # print markerDatabase
 
     #Database filter:
 
@@ -64,13 +55,11 @@ def biomarkerGenerator(words):
 
     #Name(Syntax) filter:
 
-    #up_regex = RegexNgramMatch(label='Upper', regex_pattern=r'(^|(?<=\s))[A-Za-z][A-Z1-6-]{2,}', ignore_case=False,match_attrib='words')
+    up_regex = RegexNgramMatch(label='Upper', regex_pattern=r'(^|(?<=\s))[A-Za-z][A-Z1-6-]{2,}', ignore_case=False,match_attrib='words')
 
-    #word_regex = RegexFilterAll(up_regex, label='Word', regex_pattern=r'[A-Za-z]{2,}', ignore_case=True)
+    CE = Union(up_regex, gene_dm)
 
-    #CE = Union(up_regex, gene_dm)
-
-    E = Entities(words, gene_dm)
+    E = Entities(words, CE)
 
     return gene_dm
 
