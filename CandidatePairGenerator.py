@@ -1,5 +1,5 @@
 from ddlite import *
-import BiomarkerCandidateGenerator, DiseaseCandidateGenerator
+import BiomarkerCandidateGenerator, DiseaseCandidateGenerator, pickle
 
 
 def doEverything():
@@ -30,21 +30,23 @@ def doEverything():
 
     # 1
     def LF_distance(m):
+        # print m.lemmas
+        # print m.dep_labels
         distance = abs(m.e2_idxs[0] - m.e1_idxs[0])
-        if distance < 10:
+        if distance < 8:
             # print "RETURNING ONE"
             return 0
         else:
             return -1
 
     def LF_keyword(m):
-        for word in keyWords:
-            if (word in m.post_window1('lemmas', 20)) and (word in m.pre_window2('lemmas', 20)):
-                if presenceOfNot(m):
-                    return -1
-                else:
-                    return 1
-    
+    #     for word in keyWords:
+    #         if (word in m.post_window1('lemmas', 20)) and (word in m.pre_window2('lemmas', 20)):
+    #             if presenceOfNot(m):
+    #                 return -1
+    #             else:
+    #                 return 1
+    #
         return 0
 
     # def LF_associate(m):
@@ -330,7 +332,7 @@ def doEverything():
     def LF_conclusion(m):
 
         if ('conclusion' in m.pre_window1('lemmas', 20) or 'conclusion' in m.pre_window2('lemmas', 20)):
-            print "FOUND"
+            # print "FOUND"
             return 1
         else:
             return 0
@@ -347,44 +349,33 @@ def doEverything():
     def LF_treatment(m):
         return 1 if (
             'treatment' in m.pre_window1('lemmas', 20) or 'treatment' in m.post_window1('lemmas', 20)) else 0
-    #75
-    def LF_indicator(m):
-        return 1 if (
-            'indicator' in m.post_window1('lemmas', 20) or 'indicator' in m.post_window2('lemmas', 20)) else 0
-    
-    #76
-    def LF_wasNotFound(m):
-        return -1 if (
-            'was' in m.post_window1('lemmas', 20) and 'not' in m.post_window1('lemmas', 20) and 'found' in m.post_window1(
-                'lemmas', 20)) else 0
-    #77
     def LF_auxpass(m):
-        if not ('auxpass' and 'aux') in (m.post_window1('dep_labels', 20) and m.pre_window2('dep_labels', 20)):
-            return -1
-        else:
-            return 0
-    #78
-    def LF_usedToTest(m):
-        return 1 if('used' in m.post_window1('lemmas', 20) and 'test' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
-            'lemmas', 20) and 'test' in m.pre_window2('lemmas', 20)) else 0
-    #79
-    def LF_usedToDiagonse(m):
-        return 1 if('used' in m.post_window1('lemmas', 20) and 'diagnose' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
-            'lemmas', 20) and 'diagnose' in m.pre_window2('lemmas', 20)) else 0
-    #80
-    def LF_usedToMeasure(m):
-        return 1 if('used' in m.post_window1('lemmas', 20) and 'measure' in m.post_window1('lemmas', 20) and 'used' in m.pre_window2(
-            'lemmas', 20) and 'measure' in m.pre_window2('lemmas', 20)) else 0
-    #81
-    def LF_drug(m):
-        return 1 if('drug' in m.post_window1('lemmas', 20) or 'drug' in m.pre_window2('lemmas', 20)) else 0
-    
-    LFs = [LF_investigate, LF_key, LF_possible, LF_explore, LF_distance, LF_keyword,LF_auxpass
+            if not ('auxpass' and 'aux') in (m.post_window1('dep_labels', 20) and m.pre_window2('dep_labels', 20)):
+                return -1
+            else:
+                return 0
+    def LF_inbetween(m):
+        with open('diseaseDatabase.pickle', 'rb') as f:
+            diseaseDictionary = pickle.load(f)
+        with open('diseaseAbbreviationsDatabase.pickle', 'rb') as f:
+            diseaseAbb = pickle.load(f)
+        with open('markerData.pickle', 'rb') as f:
+            markerDatabase = pickle.load(f)
+        for marker in markerDatabase:
+            if(marker in list[m.e1_idxs[0] : m.e2_idxs]):
+                return -1
+        for disease in diseaseDictionary:
+            if (disease in list[m.e1_idxs[0]: m.e2_idxs]):
+                return -1
+        for disease in diseaseAbb:
+            if (marker in list[m.e1_idxs[0]: m.e2_idxs]):
+                return -1
+        return 0
+    LFs = [LF_investigate, LF_key,  LF_distance, LF_keyword, LF_auxpass, LF_inbetween,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
-           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_indicator, LF_wasNotFound, LF_auxpass,
-           LF_usedToTest, LF_usedToDiagnose, LF_usedToMeasure, LF_drug]
+           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags5.tsv"):
@@ -404,7 +395,6 @@ def doEverything():
     # """END"""
     # # with open("thing.xml", "wb") as f:
     #
-    # doEverything()
 
 
 def mindtaggerToTruth(filename):
@@ -422,3 +412,4 @@ def mindtaggerToTruth(filename):
                      list[count + 1] + "', '" + list[count + 2] + "']", number))
         count += 7
     return uids
+doEverything()
