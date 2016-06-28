@@ -362,13 +362,13 @@ def doEverything():
         with open('markerData.pickle', 'rb') as f:
             markerDatabase = pickle.load(f)
         for marker in markerDatabase:
-            if(marker in list[m.e1_idxs[0] : m.e2_idxs]):
+            if(marker in list[m.e1_idxs[0] : m.e2_idxs[0]]):
                 return -1
         for disease in diseaseDictionary:
-            if (disease in list[m.e1_idxs[0]: m.e2_idxs]):
+            if (disease in list[m.e1_idxs[0]: m.e2_idxs[0]]):
                 return -1
         for disease in diseaseAbb:
-            if (marker in list[m.e1_idxs[0]: m.e2_idxs]):
+            if (marker in list[m.e1_idxs[0]: m.e2_idxs[0]]):
                 return -1
         return 0
     LFs = [LF_investigate, LF_key,  LF_distance, LF_keyword, LF_auxpass, LF_inbetween,
