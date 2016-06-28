@@ -372,13 +372,18 @@ def doEverything():
                 return -1
         return 0
     def LF_patientsWith(m):
-        return 1 if ('patient' in m.post_window2('lemmas', 3)) and ('with' in m.post_window2('lemmas',2) else 0
+        return 1 if ('patient' in m.post_window2('lemmas', 3)) and ('with' in m.post_window2('lemmas',2)) else 0
+        
+    def LF_complm(m):
+        return -1 if('complm' in m.post_window1('dep_labels', 20) and 'complm' in m.pre_window2('dep_labels', 20) or 'complm'
+        in m.pre_window1('dep_labels', 20)) else 0
         
     LFs = [LF_investigate, LF_key,  LF_distance, LF_keyword, LF_auxpass, LF_inbetween,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
            LF_doesNotIndicate, LF_doesNotImply, LF_studies, LF_studies2, LF_studies3, LF_studies4, LF_interesting,
-           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment]
+           LF_discussion, LF_conclusion, LF_recently, LF_induced, LF_treatment, LF_auxpass, LF_inbetween, LF_patientsWith,
+           LF_complm]
     gts = []
     uids = []
     for tuple in mindtaggerToTruth("tags5.tsv"):
