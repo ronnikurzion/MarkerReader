@@ -371,6 +371,9 @@ def doEverything():
             if (marker in list[m.e1_idxs[0]: m.e2_idxs[0]]):
                 return -1
         return 0
+    def LF_patientsWith(m):
+        return 1 if ('patient' in m.post_window2('lemmas', 3)) and ('with' in m.post_window2('lemmas',2) else 0
+        
     LFs = [LF_investigate, LF_key,  LF_distance, LF_keyword, LF_auxpass, LF_inbetween,
            LF_possible, LF_explore, LF_key, LF_investigate, LF_yetToBeConfirmed, LF_notAssociated, LF_notRelated,
            LF_doesNotShow, LF_notLinked, LF_notCorrelated, LF_disprove, LF_doesNotSignify,
